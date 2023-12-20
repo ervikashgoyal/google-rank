@@ -7,7 +7,7 @@ import time
 def get_top_results(keyword, num_results=100, delay=2):
     results = []
     try:
-        for url in itertools.islice(search(keyword, num_results=num_results), num_results):
+        for url in itertools.islice(search(keyword, stop=num_results), num_results):
             results.append(url)
             time.sleep(delay)  # Introduce a delay to avoid rate limiting
     except Exception as e:
