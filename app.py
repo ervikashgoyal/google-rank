@@ -4,7 +4,7 @@ import pandas as pd
 import itertools
 import time
 
-def get_top_results(keyword, num_results=100, delay=2):
+def get_top_results(keyword, num_results=100, delay=0.1):
     results = []
     try:
         for url in itertools.islice(search(keyword, stop=num_results), num_results):
