@@ -6,10 +6,12 @@ import time
 
 def get_top_results(keyword, num_results=100, delay=2):
     results = []
-    for url in itertools.islice(search(keyword, num_results=num_results), num_results):
-        results.append(url)
-        time.sleep(delay)  # Introduce a delay to avoid rate limiting
-
+    try:
+        for url in itertools.islice(search(keyword, num_results=num_results), num_results):
+            results.append(url)
+            time.sleep(delay)  # Introduce a delay to avoid rate limiting
+    except Exception as e:
+        st.error(f"Error during search: {str(e)}")
     return results
 
 def create_dataframe(results):
@@ -28,11 +30,12 @@ def main():
     if st.button("Search"):
         st.info("Searching... Please wait.")
         search_results = get_top_results(search_keyword)
-        df = create_dataframe(search_results)
-
-        st.success("Search complete!")
-        st.write("Top 100 Results:")
-        st.write(df)
+        
+        if search_results:
+            df = create_dataframe(search_results)
+            st.success("Search complete!")
+            st.write("Top 100 Results:")
+            st.write(df)
 
 if __name__ == "__main__":
     main()
